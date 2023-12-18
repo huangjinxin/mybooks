@@ -62,8 +62,6 @@
   </script>
   
   <style scoped>
-  .add-transaction {
-    /* 样式编写区域 */
-  }
+
   </style>
   

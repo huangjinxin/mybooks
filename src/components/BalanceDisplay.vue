@@ -18,8 +18,6 @@
   </script>
   
   <style scoped>
-  .balance-display {
-    /* 这里添加样式 */
-  }
+
   </style>
   
