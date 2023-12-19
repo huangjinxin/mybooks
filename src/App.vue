@@ -82,6 +82,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       totalBalance: 0,
       transactions: [],
       // 初始化为具有默认值的对象
@@ -99,6 +100,23 @@ export default {
     this.loadTransactions();
   },
   methods: {
+    // 验证交易记录
+    validateTransaction(transaction) {
+    if (!transaction.amount || isNaN(transaction.amount)) {
+      alert('请输入有效的金额');
+      return false;
+    }
+    if (!transaction.type) {
+      alert('请选择交易类型');
+      return false;
+    }
+    if (!transaction.description.trim()) {
+      alert('请输入交易描述');
+      return false;
+    }
+    return true;
+  },
+
     // 更新交易记录
     updateTransaction() {
     // 检查 currentTransaction 是否存在并且有一个有效的 id
@@ -143,7 +161,17 @@ export default {
   },
   // 处理添加交易的事件
   addTransaction(newTransaction) {
+    this.isLoading = true;
+    // 模拟异步操作，例如 API 调用
+    setTimeout(() => {
+      if (this.validateTransaction(newTransaction)) {
+        // ...添加交易的逻辑...
+        alert('交易添加成功');
+      }
+      this.isLoading = false;
+    }, 1000);
     // 生成一个新的交易记录对象
+    
     const transaction = {
       ...newTransaction,
       date: new Date().toISOString().slice(0, 10) // 添加当前日期
@@ -194,11 +222,3 @@ export default {
 }
 };
 </script>
-
-<style>
-/* 这里添加全局样式 */
-#app {
-  text-align: center;
-}
-
-</style>

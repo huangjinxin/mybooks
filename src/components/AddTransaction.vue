@@ -17,7 +17,7 @@
           <label for="description">描述:</label>
           <input type="text" id="description" v-model="newTransaction.description" placeholder="交易描述">
         </div>
-        <button type="submit">提交</button>
+        <button type="submit" class="btn btn-primary">提交</button>
       </form>
     </div>
   </template>
@@ -60,8 +60,3 @@
     }
   };
   </script>
-  
-  <style scoped>
-
-  </style>
-  

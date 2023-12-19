@@ -25,29 +25,3 @@
 }
   };
   </script>
-  
-  <style scoped>
-  /* 添加样式 */
-  .transaction-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.transaction-list li {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  background-color: #f3f3f3;
-}
-
-.transaction-list span {
-  margin-right: 1rem;
-}
-
-.transaction-list button {
-  margin-left: auto;
-}
-
-  </style>
-  
