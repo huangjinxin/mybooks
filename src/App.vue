@@ -8,6 +8,7 @@
     @edit-transaction="editTransaction"
     @delete-transaction="deleteTransaction"
   ></transaction-list>
+
   </div>
 
   <!-- ...其他代码... -->
@@ -26,7 +27,7 @@
       <div class="mb-3">
         <label for="edit-amount" class="form-label">金额</label>
         <input
-          type="number"
+          type="text"
           class="form-control"
           id="edit-amount"
           v-model.number="currentTransaction.amount"
