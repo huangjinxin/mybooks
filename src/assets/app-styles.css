@@ -1,0 +1,26 @@
+/* app-styles.css */
+/* 自定义样式，例如调整间距、字体大小等 */
+.custom-list-group-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f8f9fa;
+  }
+  
+  .custom-header {
+    background-color: #f7f7f7;
+    padding: 20px 0;
+    margin-bottom: 15px;
+  }
+  
+  /* 更多自定义样式 */
+  /* app-styles.css */
+/* 这里可以添加一些自定义样式，如需要的话 */
+
+/* 比如：修改整个应用的背景色 */
+body {
+    background-color: #f8f9fa; /* Bootstrap 默认的灰色背景 */
+  }
+  
+  /* 调整容器的最大宽度 */
+  .container {
+    max-width: 960px; /* 根据需要调整 */
+  }
