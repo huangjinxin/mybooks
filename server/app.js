@@ -1,15 +1,15 @@
 const express = require('express');
+const fs = require('fs');
+const https = require('https');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
-
-// 初始化一个新的数据库实例，如果文件不存在则会被创建
 const db = new sqlite3.Database('./mydatabase.db');
 
 const app = express();
-
 app.use(cors());
 app.use(bodyParser.json());
+
 
 // API获取交易记录
 app.get('/api/transactions', (req, res) => {
@@ -45,6 +45,15 @@ app.post('/api/transaction', (req, res) => {
 // ...更多路由...
 
 const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+
+// 读取证书文件
+const privateKey = fs.readFileSync('server.key', 'utf8');
+const certificate = fs.readFileSync('server.cert', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+
+// 创建 HTTPS 服务器
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(PORT, () => {
+  console.log(`HTTPS Server running on port ${PORT}`);
 });

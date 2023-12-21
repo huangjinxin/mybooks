@@ -175,7 +175,7 @@ export default {
     // 处理添加交易的事件
     addTransaction(newTransaction) {
       if (this.validateTransaction(newTransaction)) {
-        fetch('http://localhost:3000/api/transaction', {
+        fetch('https://localhost:3000/api/transaction', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ export default {
 
     // 删除交易记录的事件处理函数（需要后端API支持）
     deleteTransaction(id) {
-      fetch(`http://localhost:3000/api/transaction/${id}`, { method: 'DELETE' })
+      fetch(`https://localhost:3000/api/transaction/${id}`, { method: 'DELETE' })
         .then(() => {
           this.transactions = this.transactions.filter(t => t.id !== id);
           this.calculateTotalBalance();
