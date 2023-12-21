@@ -160,66 +160,53 @@ export default {
     // 控制模态框的显示或隐藏
     this.showEditModal = show;
   },
-  // 处理添加交易的事件
-  addTransaction(newTransaction) {
-    this.isLoading = true;
-    // 模拟异步操作，例如 API 调用
-    setTimeout(() => {
-      if (this.validateTransaction(newTransaction)) {
-        // ...添加交易的逻辑...
-        alert('交易添加成功');
-      }
-      this.isLoading = false;
-    }, 1000);
-    // 生成一个新的交易记录对象
-    
-    const transaction = {
-      ...newTransaction,
-      date: new Date().toISOString().slice(0, 10) // 添加当前日期
-    };
-    // 将新交易添加到交易记录数组
-    this.transactions.push(transaction);
-    // 根据交易类型更新总余额
-    if (transaction.type === 'income') {
-      // 如果是收入，增加总余额
-      this.totalBalance += transaction.amount;
-    } else {
-      // 如果是支出，减少总余额
-      this.totalBalance -= transaction.amount;
-    }
-    // 确保在数据更改后保存数据
-    this.saveTransactions();
-  },
 
-  // 删除交易记录的事件处理函数
-  deleteTransaction(id) {
-    // 过滤掉要删除的交易记录
-    this.transactions = this.transactions.filter(t => t.id !== id);
-    // 重新计算总余额
-    this.totalBalance = this.transactions.reduce(
-      (acc, t) => t.type === 'income' ? acc + t.amount : acc - t.amount,
-      0
-    );
-    // 确保在数据更改后保存数据
-    this.saveTransactions();
-  },
-  // 保存交易数据到本地存储
-  saveTransactions() {
-    localStorage.setItem('transactions', JSON.stringify(this.transactions));
-  },
-
-  // 从本地存储加载交易数据
+  // 从后端API加载交易数据
   loadTransactions() {
-    const transactions = JSON.parse(localStorage.getItem('transactions'));
-    if (transactions) {
-      this.transactions = transactions;
-      // 重新计算总余额
-      this.totalBalance = this.transactions.reduce(
-        (acc, transaction) => {
-          return transaction.type === 'income' ? acc + transaction.amount : acc - transaction.amount;
-        }, 0);
-    }
+      fetch('http://localhost:3000/api/transactions')
+        .then(response => response.json())
+        .then(data => {
+          this.transactions = data;
+          this.calculateTotalBalance();
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    },
+
+    // 处理添加交易的事件
+    addTransaction(newTransaction) {
+      if (this.validateTransaction(newTransaction)) {
+        fetch('http://localhost:3000/api/transaction', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newTransaction),
+        })
+        .then(response => response.json())
+        .then(data => {
+          this.transactions.push({ ...newTransaction, id: data.id });
+          this.calculateTotalBalance();
+          alert('交易添加成功');
+        })
+        .catch(error => {
+          console.error('Error posting data:', error);
+          alert('交易添加失败');
+        });
+      }
+    },
+
+    // 删除交易记录的事件处理函数（需要后端API支持）
+    deleteTransaction(id) {
+      fetch(`http://localhost:3000/api/transaction/${id}`, { method: 'DELETE' })
+        .then(() => {
+          this.transactions = this.transactions.filter(t => t.id !== id);
+          this.calculateTotalBalance();
+        })
+        .catch(error => {
+          console.error('Error deleting data:', error);
+          alert('交易删除失败');
+        });
+    },
   },
-}
 };
 </script>
